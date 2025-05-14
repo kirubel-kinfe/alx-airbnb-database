@@ -1,4 +1,7 @@
--- Initial Query to Retrieve All Bookings with User, Property, and Payment Details
+-- Analyze the performance of a query retrieving bookings along with user, property, and payment details
+
+-- Step 1: Use EXPLAIN to analyze the query
+EXPLAIN ANALYZE
 SELECT
     b.booking_id,
     b.start_date,
@@ -8,11 +11,9 @@ SELECT
     u.user_id,
     u.first_name,
     u.last_name,
-    u.email,
     p.property_id,
     p.name AS property_name,
     p.location AS property_location,
-    p.pricepernight,
     pay.payment_id,
     pay.amount AS payment_amount,
     pay.payment_method,
@@ -24,4 +25,8 @@ JOIN
 JOIN
     Property p ON b.property_id = p.property_id
 JOIN
-    Payment pay ON b.booking_id = pay.booking_id;
+    Payment pay ON b.booking_id = pay.booking_id
+WHERE
+    b.status = 'confirmed'
+    AND p.location = 'Addis Ababa'
+    AND pay.payment_method = 'credit_card';

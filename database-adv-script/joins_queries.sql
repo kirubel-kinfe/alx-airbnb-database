@@ -1,31 +1,38 @@
 -- INNER JOIN
 
 SELECT 
-    b.id AS booking_id,
+    b.booking_id,
     b.property_id,
     b.start_date,
     b.end_date,
-    u.id AS user_id,
-    u.name AS user_name,
+    b.total_price,
+    b.status,
+    u.user_id,
+    u.first_name,
+    u.last_name,
     u.email
 FROM 
-    bookings b
+    Booking b
 INNER JOIN 
-    users u ON b.user_id = u.id;
+    User u ON b.user_id = u.user_id;
 
 
 -- LEFT JOIN
 
 SELECT 
-    p.id AS property_id,
+    p.property_id,
     p.name AS property_name,
-    r.id AS review_id,
+    p.description,
+    p.location,
+    p.pricepernight,
+    r.review_id,
     r.rating,
-    r.comment
+    r.comment,
+    r.created_at AS review_date
 FROM 
-    properties p
+    Property p
 LEFT JOIN 
-    reviews r ON p.id = r.property_id;
+    Review r ON p.property_id = r.property_id;
 
 
 -- FULL JOIN
@@ -45,26 +52,36 @@ FULL OUTER JOIN
 -- UNION JOIN
 
 SELECT 
-    u.id AS user_id,
-    u.name AS user_name,
-    b.id AS booking_id,
+    u.user_id,
+    u.first_name,
+    u.last_name,
+    u.email,
+    b.booking_id,
+    b.property_id,
     b.start_date,
-    b.end_date
+    b.end_date,
+    b.total_price,
+    b.status
 FROM 
-    users u
+    User u
 LEFT JOIN 
-    bookings b ON u.id = b.user_id
+    Booking b ON u.user_id = b.user_id
 
 UNION
 
 SELECT 
-    u.id AS user_id,
-    u.name AS user_name,
-    b.id AS booking_id,
+    u.user_id,
+    u.first_name,
+    u.last_name,
+    u.email,
+    b.booking_id,
+    b.property_id,
     b.start_date,
-    b.end_date
+    b.end_date,
+    b.total_price,
+    b.status
 FROM 
-    users u
+    User u
 RIGHT JOIN 
-    bookings b ON u.id = b.user_id;
+    Booking b ON u.user_id = b.user_id;
 
